@@ -1290,7 +1290,7 @@ fn row_and_line_are_written_in_kana() -> Result<()> {
        <mtr> <mtd> <mrow> <mn>2</mn><mi>x</mi><mo>+</mo><mn>3</mn><mi>y</mi></mrow></mtd>  <mtd><mo>=</mo></mtd>  <mtd><mrow><mn>17</mn></mrow></mtd> </mtr>
       </mtable></mrow>
     </math>";
-    test_ClearSpeak("ja", "ClearSpeak_MultiLineLabel", "Line", expr, "PLACEHOLDER")?;
-    test_ClearSpeak("ja", "ClearSpeak_MultiLineLabel", "Row", expr, "PLACEHOLDER")?;
+    test_ClearSpeak("ja", "ClearSpeak_MultiLineLabel", "Line", expr, "2 ぎょう; ぎょう 1; x プラス y, イコール 7; ぎょう 2; 2 x プラス 3 y; イコール 17")?;
+    test_ClearSpeak("ja", "ClearSpeak_MultiLineLabel", "Row", expr, "2 ぎょう; ぎょう 1; x プラス y, イコール 7; ぎょう 2; 2 x プラス 3 y; イコール 17")?;
     return Ok(());
 }
