@@ -549,6 +549,10 @@ fn angle_measure_intent() -> Result<()> {
     let sign_arg = "<math><mrow intent='angle-measure($x)'><mi>m</mi><mrow arg='x'><mo>&#x2220;</mo><mi>x</mi></mrow></mrow></math>";
     test("ja", "ClearSpeak", sign_arg, "角 x の大きさ")?;
     test("ja", "SimpleSpeak", sign_arg, "角 x の大きさ")?;
+    // A silent angle does not say 角 itself, so it is said here.
+    let silent_arg = "<math><mrow intent='angle-measure($x)'><mrow arg='x' intent='angle:silent($p)'><mi arg='p'>x</mi></mrow></mrow></math>";
+    test("ja", "ClearSpeak", silent_arg, "角 x の大きさ")?;
+    test("ja", "SimpleSpeak", silent_arg, "角 x の大きさ")?;
     return Ok(());
 }
 

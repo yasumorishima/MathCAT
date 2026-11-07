@@ -68,7 +68,7 @@
   replace:
   - test:
       # the operand already says 角 for m∠ABC or an angle intent; don't say it twice
-      if: "not(*[1][self::m:angle or (self::m:mrow and *[1][self::m:mo and .='∠'])])"
+      if: "not(*[1][(self::m:angle and not(contains(@data-intent-property, ':silent:'))) or (self::m:mrow and *[1][self::m:mo and .='∠'])])"
       then: [T: "角"]      # phrase('measure of angle' ABC)
   - x: "*"
   - T: "の大きさ"      # Japanese says the angle first: 角 A の大きさ
