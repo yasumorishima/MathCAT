@@ -1293,8 +1293,8 @@ fn row_and_line_are_written_in_kana() -> Result<()> {
     test_ClearSpeak("ja", "ClearSpeak_MultiLineLabel", "Line", expr, "2 ぎょう; ぎょう 1; x プラス y, イコール 7; ぎょう 2; 2 x プラス 3 y; イコール 17")?;
     test_ClearSpeak("ja", "ClearSpeak_MultiLineLabel", "Row", expr, "2 ぎょう; ぎょう 1; x プラス y, イコール 7; ぎょう 2; 2 x プラス 3 y; イコール 17")?;
     // SimpleSpeak reads the two equations as equations (式), so its line word needs
-    // a table that is not one: a table after an operator is read as lines.
-    let lines = "<math><mi>f</mi><mtable><mtr><mtd><mn>3</mn></mtd></mtr><mtr><mtd><mn>2</mn></mtd></mtr></mtable></math>";
+    // a table that is not one: one marked as lines.
+    let lines = "<math><mtable intent=':lines'><mtr><mtd><mn>3</mn></mtd></mtr><mtr><mtd><mn>2</mn></mtd></mtr></mtable></math>";
     test("ja", "SimpleSpeak", lines, "PLACEHOLDER_SS")?;
     return Ok(());
 }

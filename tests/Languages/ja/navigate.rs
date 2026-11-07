@@ -174,5 +174,5 @@ fn the_overview_toggle_says_what_it_will_do() -> Result<()> {
 #[test]
 fn moving_between_rows_names_the_row_in_kana() -> Result<()> {
     assert_speech(TABLE, &["ZoomInAll", "MoveCellDown", "MoveCellUp"], "上に移動, ぎょう 1, 列 1; 1")?;
-    assert_speech(TABLE, &["ZoomInAll", "MoveCellUp"], "PLACEHOLDER_NONE")
+    assert_speech(TABLE, &["ZoomInAll", "MoveCellUp"], "前のぎょうはありません")
 }
