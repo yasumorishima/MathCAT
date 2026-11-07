@@ -300,6 +300,19 @@ fn overview_nth_root() -> Result<()> {
     return Ok(());
 }
 
+/// The overview square root uses the same words as the full speech.
+#[test]
+fn overview_square_root() -> Result<()> {
+    set_rules_dir(abs_rules_dir_path())?;
+    set_preference("Language", "ja")?;
+    set_preference("SpeechStyle", "SimpleSpeak")?;
+    set_preference("Verbosity", "Medium")?;
+    set_mathml("<math><msqrt><mi>x</mi></msqrt></math>")?;
+    let spoken = get_overview_text()?;
+    assert_eq!("平方根 オブ x", spoken.trim_end_matches([' ', ',', ';']));
+    return Ok(());
+}
+
 /// Verifies the basic Japanese SimpleSpeak subscript pattern.
 #[test]
 fn subscript() -> Result<()> {
@@ -501,6 +514,17 @@ fn geometry_verbose_from_to() -> Result<()> {
     test_prefs("ja", "ClearSpeak", vec![("Verbosity", "Verbose")], seg, "線分 x から y まで")?;
     let ray = "<math><mrow intent='ray($x,$y)'><mi arg='x'>x</mi><mi arg='y'>y</mi></mrow></math>";
     test_prefs("ja", "ClearSpeak", vec![("Verbosity", "Verbose")], ray, "半直線 x を始点として y を通る")?;
+    return Ok(());
+}
+
+/// The measure of an angle is 「角 ABC の大きさ」: Japanese names the angle first.
+/// 「角の大きさ ABC」 kept the English order.
+#[test]
+fn measure_of_angle() -> Result<()> {
+    let expr = "<math><mrow intent='measure-of-angle($x,$y,$z)'><mi arg='x'>x</mi><mi arg='y'>y</mi><mi arg='z'>z</mi></mrow></math>";
+    test("ja", "ClearSpeak", expr, "角 x y z の大きさ")?;
+    test_prefs("ja", "ClearSpeak", vec![("Verbosity", "Verbose")], expr, "角 x y z の大きさ")?;
+    test("ja", "SimpleSpeak", expr, "角 x y z の大きさ")?;
     return Ok(());
 }
 
@@ -1284,6 +1308,18 @@ fn natural_log_is_shizen_taisuu() -> Result<()> {
     let expr = "<math><mi>ln</mi><mi>x</mi></math>";
     test_ClearSpeak("ja", "ClearSpeak_Log", "LnAsNaturalLog", expr, "自然対数 x")?;
     test("ja", "SimpleSpeak", expr, "自然対数 オブ x")?;
+    return Ok(());
+}
+
+/// Log z (capital L) is the principal value of the logarithm, 対数の主値.
+/// 主値 is written in kana: Open JTalk reads the kanji シュネ or アルジチ.
+/// The comma is the automatic pause: src/tts.rs skips it before a two-byte "of",
+/// but オブ is six bytes in UTF-8, so a long function name gets a short pause.
+#[test]
+fn principal_value_log() -> Result<()> {
+    let expr = "<math><mrow><mi>Log</mi><mi>z</mi></mrow></math>";
+    test("ja", "ClearSpeak", expr, "対数のしゅち, オブ z")?;
+    test("ja", "SimpleSpeak", expr, "対数のしゅち, オブ z")?;
     return Ok(());
 }
 
