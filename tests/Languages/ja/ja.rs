@@ -1277,10 +1277,10 @@ fn binomial_coefficient_is_read_like_ncr() -> Result<()> {
     return Ok(());
 }
 
-/// 行 standing alone ("row", "line") is read クダリ or アルキ by Open JTalk, the
-/// synthesizer NVDA's Japanese edition uses: MathCAT puts a space before every word,
-/// and after a space the dictionary does not pick ギョウ. It is written ぎょう, which
-/// every engine reads as ギョウ. 行列 and 行列式 are read correctly and stay as they are.
+/// 行 for a row or a line was read クダリ or アルキ by Open JTalk, the synthesizer in
+/// NVDA's Japanese edition: as a word of its own (行 1, 3 行) and also inside one
+/// string (行区切り, 前の行に移動). Written ぎょう it is read ギョウ. 行列 and 行列式
+/// are read correctly and stay as they are.
 #[test]
 fn row_and_line_are_written_in_kana() -> Result<()> {
     let expr = "<math>
@@ -1292,5 +1292,8 @@ fn row_and_line_are_written_in_kana() -> Result<()> {
     </math>";
     test_ClearSpeak("ja", "ClearSpeak_MultiLineLabel", "Line", expr, "2 ぎょう; ぎょう 1; x プラス y, イコール 7; ぎょう 2; 2 x プラス 3 y; イコール 17")?;
     test_ClearSpeak("ja", "ClearSpeak_MultiLineLabel", "Row", expr, "2 ぎょう; ぎょう 1; x プラス y, イコール 7; ぎょう 2; 2 x プラス 3 y; イコール 17")?;
+    test("ja", "SimpleSpeak", expr, "PLACEHOLDER_SS")?;
+    let table = "<math><mtable><mtr><mtd><mn>1</mn></mtd><mtd><mn>2</mn></mtd></mtr><mtr><mtd><mn>3</mn></mtd><mtd><mn>4</mn></mtd></mtr></mtable></math>";
+    test("ja", "SimpleSpeak", table, "PLACEHOLDER_TABLE")?;
     return Ok(());
 }
