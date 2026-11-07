@@ -60,6 +60,16 @@
   - x: "*[3]"
   - T: "の大きさ"      # Japanese says the angle first: 角 ABC の大きさ
 
+# The angle-measure intent: definitions.yaml can only give it as a prefix (角の大きさ A),
+# which keeps the English order, so say it here the same way as measure-of-angle.
+- name: angle-measure
+  tag: angle-measure
+  match: "count(*)>0"
+  replace:
+  - T: "角"      # phrase('measure of angle' ABC)
+  - x: "*"
+  - T: "の大きさ"      # Japanese says the angle first: 角 A の大きさ
+
 
 - name: coordinate
   tag: coordinate

@@ -300,16 +300,24 @@ fn overview_nth_root() -> Result<()> {
     return Ok(());
 }
 
-/// The overview square root uses the same words as the full speech.
+/// The overview rules (the "describe" command) shorten a root, a fraction and a long
+/// row: a root whose radicand is not simple is just 平方根, a fraction whose parts are
+/// not simple is just 分数, and a long row stops after five items with 以下同様.
 #[test]
-fn overview_square_root() -> Result<()> {
-    set_rules_dir(abs_rules_dir_path())?;
-    set_preference("Language", "ja")?;
-    set_preference("SpeechStyle", "SimpleSpeak")?;
-    set_preference("Verbosity", "Medium")?;
-    set_mathml("<math><msqrt><mi>x</mi></msqrt></math>")?;
-    let spoken = get_overview_text()?;
-    assert_eq!("平方根 オブ x", spoken.trim_end_matches([' ', ',', ';']));
+fn overview_short_forms() -> Result<()> {
+    for (expr, expected) in [
+        ("<math><msqrt><mi>x</mi><mo>+</mo><mn>1</mn></msqrt></math>", "PLACEHOLDER"),
+        ("<math><mfrac><mrow><mi>x</mi><mo>+</mo><mn>1</mn></mrow><mn>2</mn></mfrac></math>", "PLACEHOLDER"),
+        ("<math><mi>a</mi><mo>+</mo><mi>b</mi><mo>+</mo><mi>c</mi><mo>+</mo><mi>d</mi></math>", "PLACEHOLDER"),
+    ] {
+        set_rules_dir(abs_rules_dir_path())?;
+        set_preference("Language", "ja")?;
+        set_preference("SpeechStyle", "SimpleSpeak")?;
+        set_preference("Verbosity", "Medium")?;
+        set_mathml(expr)?;
+        let spoken = get_overview_text()?;
+        assert_eq!(expected, spoken.trim_end_matches([' ', ',', ';']));
+    }
     return Ok(());
 }
 
@@ -525,6 +533,15 @@ fn measure_of_angle() -> Result<()> {
     test("ja", "ClearSpeak", expr, "角 x y z の大きさ")?;
     test_prefs("ja", "ClearSpeak", vec![("Verbosity", "Verbose")], expr, "角 x y z の大きさ")?;
     test("ja", "SimpleSpeak", expr, "角 x y z の大きさ")?;
+    return Ok(());
+}
+
+/// The angle-measure intent is said the same way: 角 A の大きさ.
+#[test]
+fn angle_measure_intent() -> Result<()> {
+    let expr = "<math><mrow intent='angle-measure($x)'><mi arg='x'>x</mi></mrow></math>";
+    test("ja", "ClearSpeak", expr, "PLACEHOLDER")?;
+    test("ja", "SimpleSpeak", expr, "PLACEHOLDER")?;
     return Ok(());
 }
 
