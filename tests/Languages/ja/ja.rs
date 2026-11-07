@@ -282,8 +282,8 @@ fn variable_index_root() -> Result<()> {
 #[test]
 fn fourth_root_sign() -> Result<()> {
     let expr = "<math><mo>&#x221C;</mo><mi>x</mi></math>";
-    test("ja", "ClearSpeak", expr, "PLACEHOLDER")?;
-    test("ja", "SimpleSpeak", expr, "PLACEHOLDER")?;
+    test("ja", "ClearSpeak", expr, "4じょうこん x")?;
+    test("ja", "SimpleSpeak", expr, "4じょうこん x")?;
     return Ok(());
 }
 
@@ -296,7 +296,7 @@ fn overview_nth_root() -> Result<()> {
     set_preference("Verbosity", "Medium")?;
     set_mathml("<math><mroot><mi>x</mi><mn>5</mn></mroot></math>")?;
     let spoken = get_overview_text()?;
-    assert_eq!("PLACEHOLDER", spoken.trim_end_matches([' ', ',', ';']));
+    assert_eq!("5 じょうこん オブ x", spoken.trim_end_matches([' ', ',', ';']));
     return Ok(());
 }
 
