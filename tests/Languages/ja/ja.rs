@@ -997,6 +997,24 @@ fn chemical_states() -> Result<()> {
     return Ok(());
 }
 
+/// MathCAT says the arrow word between the two sides, so the word has to fit
+/// there: A が反応して B, A から B (terse), A と平衡にある B.
+#[test]
+fn chemical_arrows() -> Result<()> {
+    for (arrow, verbosity, expected) in [
+        ("&#x2192;", "Verbose", "PLACEHOLDER"),
+        ("&#x2192;", "Terse", "PLACEHOLDER"),
+        ("&#x21CC;", "Verbose", "PLACEHOLDER"),
+        ("&#x1F8D3;", "Verbose", "PLACEHOLDER"),
+        ("&#x1F8D2;", "Verbose", "PLACEHOLDER"),
+    ] {
+        let expr = format!("<math><mrow><mn>2</mn><mi>H</mi><mi>Cl</mi><mo>+</mo><mn>2</mn><mtext>Na</mtext>
+            <mo>{arrow}</mo><mn>2</mn><mtext>Na</mtext><mi>Cl</mi><mo>+</mo><msub><mi>H</mi><mn>2</mn></msub></mrow></math>");
+        test_prefs("ja", "SimpleSpeak", vec![("Verbosity", verbosity)], &expr, expected)?;
+    }
+    return Ok(());
+}
+
 /// Bond names are 単結合 二重結合 三重結合 四重結合, not transliterations;
 /// 四倍の結束 is "quadruple solidarity", not a chemistry term.
 #[test]
