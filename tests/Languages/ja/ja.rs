@@ -306,9 +306,9 @@ fn overview_nth_root() -> Result<()> {
 #[test]
 fn overview_short_forms() -> Result<()> {
     for (expr, expected) in [
-        ("<math><msqrt><mi>x</mi><mo>+</mo><mn>1</mn></msqrt></math>", "PLACEHOLDER"),
-        ("<math><mfrac><mrow><mi>x</mi><mo>+</mo><mn>1</mn></mrow><mn>2</mn></mfrac></math>", "PLACEHOLDER"),
-        ("<math><mi>a</mi><mo>+</mo><mi>b</mi><mo>+</mo><mi>c</mi><mo>+</mo><mi>d</mi></math>", "PLACEHOLDER"),
+        ("<math><msqrt><mi>x</mi><mo>+</mo><mn>1</mn></msqrt></math>", "平方根"),
+        ("<math><mfrac><mrow><mi>x</mi><mo>+</mo><mn>1</mn></mrow><mn>2</mn></mfrac></math>", "分数"),
+        ("<math><mi>a</mi><mo>+</mo><mi>b</mi><mo>+</mo><mi>c</mi><mo>+</mo><mi>d</mi></math>", "エー プラス b プラス c 以下同様"),
     ] {
         set_rules_dir(abs_rules_dir_path())?;
         set_preference("Language", "ja")?;
@@ -540,8 +540,8 @@ fn measure_of_angle() -> Result<()> {
 #[test]
 fn angle_measure_intent() -> Result<()> {
     let expr = "<math><mrow intent='angle-measure($x)'><mi arg='x'>x</mi></mrow></math>";
-    test("ja", "ClearSpeak", expr, "PLACEHOLDER")?;
-    test("ja", "SimpleSpeak", expr, "PLACEHOLDER")?;
+    test("ja", "ClearSpeak", expr, "角 x の大きさ")?;
+    test("ja", "SimpleSpeak", expr, "角 x の大きさ")?;
     return Ok(());
 }
 
