@@ -544,11 +544,11 @@ fn angle_measure_intent() -> Result<()> {
     test("ja", "SimpleSpeak", expr, "角 x の大きさ")?;
     // m∠ABC: the operand already says 角, so it is not said twice.
     let angle_arg = "<math><mrow intent='angle-measure($x)'><mrow arg='x' intent='angle($p)'><mi arg='p'>x</mi></mrow></mrow></math>";
-    test("ja", "ClearSpeak", angle_arg, "PLACEHOLDER")?;
-    test("ja", "SimpleSpeak", angle_arg, "PLACEHOLDER")?;
-    let sign_arg = "<math><mrow intent='angle-measure($x)'><mi>m</mi><mrow arg='x'><mo>&#x2220;</mo><mi>A</mi><mi>B</mi><mi>C</mi></mrow></mrow></math>";
-    test("ja", "ClearSpeak", sign_arg, "PLACEHOLDER")?;
-    test("ja", "SimpleSpeak", sign_arg, "PLACEHOLDER")?;
+    test("ja", "ClearSpeak", angle_arg, "角 x の大きさ")?;
+    test("ja", "SimpleSpeak", angle_arg, "角 x の大きさ")?;
+    let sign_arg = "<math><mrow intent='angle-measure($x)'><mi>m</mi><mrow arg='x'><mo>&#x2220;</mo><mi>x</mi></mrow></mrow></math>";
+    test("ja", "ClearSpeak", sign_arg, "角 x の大きさ")?;
+    test("ja", "SimpleSpeak", sign_arg, "角 x の大きさ")?;
     return Ok(());
 }
 
