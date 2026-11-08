@@ -616,7 +616,7 @@ fn greek_letters_that_were_wrong() -> Result<()> {
     for (letter, expected) in [
         ("&#x3b6;", "ゼータ"),
         ("&#x3b9;", "イオタ"),
-        ("&#x3be;", "クサイ"),
+        ("&#x3be;", "グザイ"),
         ("&#x3c5;", "ウプシロン"),
         ("&#x3c8;", "プサイ"),
     ] {
