@@ -92,7 +92,7 @@
     #"fraction":"function=fraction; over; end fraction", # NOTE: Fails
     "mixed-fraction":"infix=および", # NOTE: in website says function, but follow infix speech pattern.
     "quotient":"function=整数部 : 割る",
-    "evaluated-at":"infix=評価される",
+    "evaluated-at":"infix=次の点で評価",
     "remainder":"function=余り : 割る",
 
     "max":"function=マックス",
@@ -239,7 +239,7 @@
     
     "highlight":"postfix=ハイライト",
     "least-common-denominator":"function=最小公分母",
-    "rate":"infix=あたり",
+    "rate":"infix=毎",
     "translation":"function=平行移動",
     "constraint":"infix=;制約を使って;", 
     
@@ -288,7 +288,7 @@
     "divided-by": "infix=割る",
     "divides": "infix=割り切る",
     "does-not-belong-to": "infix=属さない",
-    "does-not-divide": "infix=割り切れない",
+    "does-not-divide": "infix=割り切らない",
     "dot-product": "infix=内積",
     "downwards-diagonal-ellipsis": "infix=下向き対角の省略記号",
     "direct-product": "infix=直積",

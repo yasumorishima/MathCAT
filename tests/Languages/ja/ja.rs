@@ -788,6 +788,7 @@ fn relation_words_in_symbol_order() -> Result<()> {
         ("&#x2261;", "x 合同 y"),
         ("&#x2262;", "x ノット 合同 y"),
         ("&#x225E;", "x 測定によりイコール y"),
+        ("&#x22AD;", "x ノット 真 y"),
     ] {
         let expr = format!("<math><mi>x</mi><mo>{ch}</mo><mi>y</mi></math>");
         test("ja", "SimpleSpeak", &expr, expected)?;
@@ -795,8 +796,9 @@ fn relation_words_in_symbol_order() -> Result<()> {
     for (ch, expected) in [
         ("&#x2208;", "集合 すべての x 属する 大文字 エー ただし x 大なり 0"),
         ("&#x2209;", "集合 すべての x 属さない 大文字 エー ただし x 大なり 0"),
+        ("&#x220A;", "集合 すべての x 属する 大文字 エー ただし x 大なり 0"),
     ] {
-        let expr = format!("<math><mrow><mo>{{</mo><mrow><mi>x</mi><mo>{ch}</mo><mi>A</mi></mrow>            <mo>|</mo><mrow><mi>x</mi><mo>&gt;</mo><mn>0</mn></mrow><mo>}}</mo></mrow></math>");
+        let expr = format!("<math><mrow><mo>{{</mo><mrow><mi>x</mi><mo>{ch}</mo><mi>A</mi></mrow><mo>|</mo><mrow><mi>x</mi><mo>&gt;</mo><mn>0</mn></mrow><mo>}}</mo></mrow></math>");
         test_ClearSpeak("ja", "ClearSpeak_SetMemberSymbol", "Belongs", &expr, expected)?;
     }
     for (intent, expected) in [
@@ -810,6 +812,9 @@ fn relation_words_in_symbol_order() -> Result<()> {
         ("maps-to", "x は y に写る"),
         ("obtained-from", "x は y から得られる"),
         ("applied-to", "x は y に適用される"),
+        ("rate", "x 毎 y"),
+        ("does-not-divide", "x 割り切らない y"),
+        ("evaluated-at", "x 次の点で評価 y"),
     ] {
         let expr = format!("<math><mrow intent='{intent}($x,$y)'><mi arg='x'>x</mi><mi arg='y'>y</mi></mrow></math>");
         test("ja", "ClearSpeak", &expr, expected)?;
