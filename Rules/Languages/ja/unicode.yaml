@@ -477,7 +477,7 @@
      - test: 
          if: "$Verbosity!='Terse'"
          then: [T: ""]
-     - T: "比例する"
+     - t: "比例する"
  - "∶":                                          # 0x2236
      - test: 
          if: "$Verbosity!='Terse'"
@@ -497,7 +497,7 @@
      - test: 
          if: "$Verbosity!='Terse'"
          then: [T: ""]
-     - T: "恒等的に等しい"
+     - t: "恒等的に等しい"
  - "⊂":                                          # 0x2282
      - test: 
          if: "$Verbosity!='Terse'"

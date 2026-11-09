@@ -700,7 +700,7 @@
     # rule is identical to 0x2208
      - test:
         if: "$SpeechStyle != 'ClearSpeak'"
-        then: [t: "は ノット 要素オブ"]
+        then: [t: "ノット 要素オブ"]
         # Several options for speaking elements in ClearSpeak -- they split between being inside a set or not and then the option
         else_test:
             if: "../../self::m:set or ../../../self::m:set" # inside a set
@@ -714,11 +714,11 @@
               - else: [t: "ノット 要素オブ"]           # $ClearSpeak_SetMemberSymbol = 'Belongs'
             else_test:
               - if: $ClearSpeak_SetMemberSymbol = 'Auto' or $ClearSpeak_SetMemberSymbol = 'Member'
-                then: [t: "は ノット 要素オブ"]
+                then: [t: "ノット 要素オブ"]
               - else_if: $ClearSpeak_SetMemberSymbol = 'Element'
-                then: [t: "は ノット 要素オブ"]
+                then: [t: "ノット 要素オブ"]
               - else_if: $ClearSpeak_SetMemberSymbol = 'In'
-                then: [t: "は ノット 要素オブ"]
+                then: [t: "ノット 要素オブ"]
               - else: [t: "ノット 要素オブ"]           # $ClearSpeak_SetMemberSymbol = 'Belongs'
  - "∊":                                          # 0x220a
      - test:
@@ -741,11 +741,11 @@
               - else: [t: "要素オブ"]             # $ClearSpeak_SetMemberSymbol = 'Belongs'
             else_test:
               - if: $ClearSpeak_SetMemberSymbol = 'Auto' or $ClearSpeak_SetMemberSymbol = 'Member'
-                then: [t: "は 要素オブ"]
+                then: [t: "要素オブ"]
               - else_if: $ClearSpeak_SetMemberSymbol = 'Element'
-                then: [t: "は 要素オブ"]
+                then: [t: "要素オブ"]
               - else_if: $ClearSpeak_SetMemberSymbol = 'In'
-                then: [t: "は 要素オブ"]
+                then: [t: "要素オブ"]
               - else: [t: "要素オブ"]              # $ClearSpeak_SetMemberSymbol = 'Belongs'
  - "∋": [t: "要素として含む"]               # 0x220b
  - "∌": [t: "ノット 要素として含む"]     # 0x220c
@@ -786,7 +786,7 @@
      - test: 
          if: "$Verbosity!='Terse'"
          then: [T: ""]
-     - T: "比例する"
+     - t: "比例する"
  - "∞": [t: "無限大"]                          # 0x221e
  - "∟": [t: "直角"]                            # 0x221f
  - "∠": [t: "角"]                                  # 0x2220
@@ -944,12 +944,12 @@
      - test: 
          if: "$Verbosity!='Terse'"
          then: [T: ""]
-     - T: "恒等的に等しい"
+     - t: "恒等的に等しい"
  - "≢":                                          # 0x2262
      - test: 
          if: "$Verbosity!='Terse'"
          then: [T: ""]
-     - t: "ノット 恒等的にイコール"
+     - t: "ノット 恒等的に等しい"
  - "≣":                                          # 0x2263
      - test: 
          if: "$Verbosity!='Terse'"
@@ -1312,7 +1312,7 @@
      - t: "ノット 正規部分群オブ オア イコール"
  - "⋭": [t: "ノット 正規部分群として含む オア イコール"]  # 0x22ed
  - "⋮": [t: "縦の省略記号"]                    # 0x22ee
- - "⋯": [t: "ドット ドット ドット"]                          # 0x22ef
+ - "⋯": [T: "テンテンテン"]                          # 0x22ef
  - "⋰": [t: "右上がりの省略記号"]           # 0x22f0
  - "⋱": [t: "右下がりの省略記号"]                # 0x22f1
  - "⋲": [t: "長い横線付き要素オブ"]   # 0x22f2
