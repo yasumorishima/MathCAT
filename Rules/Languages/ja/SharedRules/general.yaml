@@ -321,7 +321,7 @@
           else: [x: "$Word", ct: ""]
       else:
       - x: "$Prefix"
-      - ct: "- - -"
+      - ct: ""
       - test:
         - if: "$IsSingular"
           # HACK: '\uF8FE' is used internally for the concatenation char by 'ct' -- this gets the prefix concatenated to the base
