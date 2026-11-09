@@ -135,8 +135,10 @@
   replace:
   - x: "*[1]"
   - test:
-      if: "*[2][.='h' or .='hr' or .='Hr']"
+    - if: "*[2][contains(@data-intent-property, ':unit') and (.='h' or .='hr' or .='Hr')]"
       then: [T: "毎時"]      # per hour is 毎時; 毎 時間 would mean "every hour"
+    - else_if: "*[2][contains(@data-intent-property, ':unit') and .='min']"
+      then: [T: "毎分"]      # 毎 分 would be read マイ ブン
       else:
       - T: "毎"      # phrase('5 meters 'per' second)
       - x: "*[2]"
