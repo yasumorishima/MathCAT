@@ -456,6 +456,31 @@ fn degree_sign() -> Result<()> {
     return Ok(());
 }
 
+/// The SI prefix was joined to the unit with "- - -", so 5 km was read キロ、、、メートル.
+/// 分, 日 and 年 after a number were read ブン, ヒ and トシ by Open JTalk, so the
+/// time units are written in kana, and per hour is the one word 毎時 (毎 時間 is
+/// "every hour").
+#[test]
+fn units() -> Result<()> {
+    for (n, unit, expected) in [
+        ("5", "km", "5 キロメートル"),
+        ("3", "mg", "3 ミリグラム"),
+        ("5", "&#xB5;s", "5 マイクロ秒"),
+        ("5", "min", "5 ふん"),
+        ("3", "d", "3 にち"),
+        ("2", "yr", "2 ねん"),
+    ] {
+        let expr = format!("<math><mn>{n}</mn><mi intent=':unit'>{unit}</mi></math>");
+        test("ja", "SimpleSpeak", &expr, expected)?;
+    }
+    for (unit, expected) in [("h", "5 キロメートル 毎時"), ("s", "5 キロメートル 毎 秒")] {
+        let expr = format!("<math><mfrac><mrow><mn>5</mn><mi intent=':unit'>km</mi></mrow><mi intent=':unit'>{unit}</mi></mfrac></math>");
+        test("ja", "SimpleSpeak", &expr, expected)?;
+        test("ja", "ClearSpeak", &expr, expected)?;
+    }
+    return Ok(());
+}
+
 /// The negation sign is ノット. The seed said コメントはありません -- "there are no
 /// comments" -- because the English source word is "not".
 #[test]
