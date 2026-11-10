@@ -578,10 +578,10 @@
 
     # angles
     "°": "度", "deg": "度", # should only take negative powers
-    "arcmin": "分角",
-    "amin": "分角",
-    "am": "分角",
-    "MOA": "分角",
+    "arcmin": "ふんかく",
+    "amin": "ふんかく",
+    "am": "ふんかく",
+    "MOA": "ふんかく",
     "arcsec": "秒角",
     "asec": "秒角",
 
