@@ -840,7 +840,7 @@ fn sum_and_product_intents() -> Result<()> {
         test("ja", "ClearSpeak", &three, &format!("{word} i から, n まで オブ x"))?;
     }
     let expr = r#"<math><mrow intent="sum($l,$u,$b)"><munderover><mo>&#x2211;</mo><mrow arg="l"><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi arg="u">n</mi></munderover><msub arg="b"><mi>a</mi><mi>i</mi></msub></mrow></math>"#;
-    test("ja", "SimpleSpeak", expr, "サム i イコール 1 から, n まで オブ エー サブ i")?;
+    test("ja", "SimpleSpeak", expr, "サム i イコール 1 から, n まで オブ エー 下付き i")?;
     return Ok(());
 }
 
