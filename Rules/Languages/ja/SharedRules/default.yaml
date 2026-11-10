@@ -766,7 +766,10 @@
 
 - name: default-text
   # unknown leaf -- just speak the text -- could be a literal intent
+  # A leaf intent such as <mo intent='plus'> gets no fixity (only nofix is added to leaves),
+  # so its name is looked up in IntentMappings: an empty fixity takes the first entry, and a
+  # name that is not there is spoken as before, with - and _ as spaces.
   tag: "*"
   match: "."
   replace:
-  - x: "translate(name(), '-_', ' ')"
+  - x: "SpeakIntentName(name(), $Verbosity, '')"

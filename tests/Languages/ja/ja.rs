@@ -1693,3 +1693,21 @@ fn open_subset_superset() -> Result<()> {
     test("ja", "SimpleSpeak", "<math><mi>x</mi><mo>&#x27C4;</mo><mi>y</mi></math>", "x かい上位集合オブ y")?;
     return Ok(());
 }
+
+/// A leaf intent (no arguments) is spoken with the ja word from IntentMappings
+/// instead of its English intent name; a name that is not there is still spoken as written.
+#[test]
+fn leaf_intent_uses_intent_mappings() -> Result<()> {
+    for (intent, expected) in [
+        ("plus", "エー プラス b"),
+        ("member-of", "エー げんオブ b"),
+        ("factorial", "エー 階乗 b"),
+        ("angle", "エー 角 b"),
+        ("gradient", "エー 勾配 b"),
+        ("not-in-mappings", "エー not in mappings b"),
+    ] {
+        let expr = format!("<math><mrow><mi>a</mi><mo intent='{intent}'>&#x2217;</mo><mi>b</mi></mrow></math>");
+        test("ja", "SimpleSpeak", &expr, expected)?;
+    }
+    return Ok(());
+}
