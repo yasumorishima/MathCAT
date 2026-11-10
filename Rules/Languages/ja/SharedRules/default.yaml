@@ -764,9 +764,26 @@
       else: [pause: auto]
 
 
-- name: default-text
+- name: default-text   # audit-ignore: a leaf intent has a fixity but no arguments, so ja speaks its IntentMappings word, not the English name
   # unknown leaf -- just speak the text -- could be a literal intent
+  # A leaf intent such as <mo intent='plus'> gets a fixity property (:infix: here), but the
+  # prefix, infix, postfix, function and silent rules above need arguments, so it ends up here.
+  # Speak its IntentMappings word for that fixity, like navigate.yaml; a leaf with no fixity
+  # (dot-product, inferred for · between vectors) takes the first entry (empty fixity).
+  # SpeakIntentName falls back to the name, with - and _ as spaces, when the name is not in
+  # IntentMappings.
   tag: "*"
   match: "."
   replace:
-  - x: "translate(name(), '-_', ' ')"
+  - test:
+    - if: "contains(@data-intent-property, ':prefix:')"
+      then: [x: "SpeakIntentName(name(.), $Verbosity, 'prefix')"]
+    - else_if: "contains(@data-intent-property, ':postfix:')"
+      then: [x: "SpeakIntentName(name(.), $Verbosity, 'postfix')"]
+    - else_if: "contains(@data-intent-property, ':infix:')"
+      then: [x: "SpeakIntentName(name(.), $Verbosity, 'infix')"]
+    - else_if: "contains(@data-intent-property, ':function:')"
+      then: [x: "SpeakIntentName(name(.), $Verbosity, 'function')"]
+    - else_if: "contains(@data-intent-property, ':silent:')"
+      then: [x: "SpeakIntentName(name(.), $Verbosity, 'silent')"]
+    - else: [x: "SpeakIntentName(name(.), $Verbosity, '')"]
