@@ -321,6 +321,7 @@
     "outer-product": "infix=外積",
     "parallel-to": "infix=平行",
     "perpendicular": "infix=垂直",
+    "perpendicular-to": "nofix=垂直",
     "plus": "infix=プラス || prefix=プラス", # Prefix not tested
     "minus": "infix=マイナス || prefix=マイナス", # Prefix not tested
     "plus-or-minus": "infix=プラスマイナス",

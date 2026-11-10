@@ -1675,3 +1675,21 @@ fn double_struck_italic_letters() -> Result<()> {
     test("ja", "SimpleSpeak", expr, "e の上付き i シータ 上付き終了")?;
     return Ok(());
 }
+
+/// perpendicular-to on a leaf would otherwise be spoken by its English intent name;
+/// the ja IntentMappings give it nofix=垂直, the word ja uses for ⊥.
+#[test]
+fn perpendicular_to_leaf_intent() -> Result<()> {
+    let expr = "<math><mrow><mi>a</mi><mo intent='perpendicular-to'>⊥</mo><mi>b</mi></mrow></math>";
+    test("ja", "SimpleSpeak", expr, "エー 垂直 b")?;
+    test("ja", "LiteralSpeak", expr, "エー 垂直 b")?;
+    return Ok(());
+}
+
+/// 開 in 開部分集合 is read ひらき by Open JTalk, so it is written かい (as in かい区間).
+#[test]
+fn open_subset_superset() -> Result<()> {
+    test("ja", "SimpleSpeak", "<math><mi>x</mi><mo>&#x27C3;</mo><mi>y</mi></math>", "x かい部分集合オブ y")?;
+    test("ja", "SimpleSpeak", "<math><mi>x</mi><mo>&#x27C4;</mo><mi>y</mi></math>", "x かい上位集合オブ y")?;
+    return Ok(());
+}
