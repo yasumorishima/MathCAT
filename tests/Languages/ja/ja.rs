@@ -1793,3 +1793,12 @@ fn supplemental_operator_words_in_unicode_full() -> Result<()> {
     }
     return Ok(());
 }
+
+/// ※ is called こめじるし. Written 米印, Open JTalk reads it べいしるし.
+/// ₡ is コスタリカコロン, because コロン alone is the punctuation colon.
+#[test]
+fn reference_mark_and_colon_sign_in_unicode_full() -> Result<()> {
+    test("ja", "SimpleSpeak", "<math><mi>x</mi><mo>&#x203B;</mo><mi>y</mi></math>", "x こめじるし y")?;
+    test("ja", "SimpleSpeak", "<math><mn>5</mn><mo>&#x20A1;</mo></math>", "5 コスタリカコロン")?;
+    return Ok(());
+}
