@@ -1272,7 +1272,7 @@ fn chemical_arrows() -> Result<()> {
     return Ok(());
 }
 
-/// Bond names are 単結合 二重結合 三重結合 四重結合, not transliterations;
+/// Bond names are 単結合 二重結合 3重結合 四重結合, not transliterations;
 /// 四倍の結束 is "quadruple solidarity", not a chemistry term.
 #[test]
 fn chemical_bonds() -> Result<()> {
@@ -1283,6 +1283,10 @@ fn chemical_bonds() -> Result<()> {
       </mrow></math>";
     test_prefs("ja", "SimpleSpeak", vec![("Verbosity", "Terse")], ethylene,
         "おおもじ h, 2, おおもじ c; 二重結合 おおもじ c; おおもじ h, 2")?;
+    // 三重結合 would be read みえけつごう, so the triple bond is written 3重結合.
+    let acetylene = "<math><mrow><mi>H</mi><mi>C</mi><mo>&#x2261;</mo><mi>C</mi><mi>H</mi></mrow></math>";
+    test_prefs("ja", "SimpleSpeak", vec![("Verbosity", "Terse")], acetylene,
+        "おおもじ h; おおもじ c; 3重結合 おおもじ c; おおもじ h")?;
     return Ok(());
 }
 
@@ -1734,5 +1738,27 @@ fn vector_dot_product() -> Result<()> {
 fn vector_cross_product() -> Result<()> {
     let expr = "<math><mrow><mover><mi>a</mi><mo>→</mo></mover><mo>×</mo><mover><mi>b</mi><mo>→</mo></mover></mrow></math>";
     test("ja", "SimpleSpeak", expr, "ベクトル エー; 外積 ベクトル b")?;
+    return Ok(());
+}
+
+/// ∽ is the sign for similar figures in Japanese school mathematics and ≒ is the
+/// usual Japanese sign for "nearly equal", but both were spoken with names taken
+/// from English (reversed tilde, approximately equal to or the image of). Three
+/// other words were misread by Open JTalk (原像 as はらぞう, 三重 as みえ and
+/// 左正規 as ひだりまさき) and are now written so they are read correctly; 三重
+/// is written 3重 everywhere in the ja rules, as in 3重結合.
+#[test]
+fn operator_words_in_unicode_full() -> Result<()> {
+    for (ch, expected) in [
+        ("&#x223D;", "x 相似 y"),
+        ("&#x2252;", "x ニアリーイコール y"),
+        ("&#x2290;", "x 四角のげんぞう y"),
+        ("&#x22AA;", "x 3重縦棒右向きターンスタイル y"),
+        ("&#x22C9;", "x 左の正規因子半直積 y"),
+        ("&#x22CA;", "x 右の正規因子半直積 y"),
+    ] {
+        let expr = format!("<math><mi>x</mi><mo>{ch}</mo><mi>y</mi></math>");
+        test("ja", "SimpleSpeak", &expr, expected)?;
+    }
     return Ok(());
 }
