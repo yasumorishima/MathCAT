@@ -1777,3 +1777,19 @@ fn arrow_words_in_unicode_full() -> Result<()> {
     }
     return Ok(());
 }
+
+/// Open JTalk reads 一重線 as ひとえせん, so it is written 1重線, as 2重 and 3重 are.
+/// ⫋ also gets the オブ that its pair ⫌ and ⫅ already have. Where only the equal sign is
+/// negated, as in ⫋, the negated equal is one word, ノットイコール, because a ノット at the
+/// start negates the whole symbol, as in ≰ (ノット 小なり オア イコール).
+#[test]
+fn supplemental_operator_words_in_unicode_full() -> Result<()> {
+    for (ch, expected) in [
+        ("&#x2AAF;", "x 1重線イコールの上に先行 y"),
+        ("&#x2ACB;", "x, ノットイコールの上に部分集合オブ y"),
+    ] {
+        let expr = format!("<math><mi>x</mi><mo>{ch}</mo><mi>y</mi></math>");
+        test("ja", "SimpleSpeak", &expr, expected)?;
+    }
+    return Ok(());
+}
