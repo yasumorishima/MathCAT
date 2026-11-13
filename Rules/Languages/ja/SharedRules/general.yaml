@@ -376,9 +376,13 @@
       if: "$Prefix = ''"
       then:
       - test:
+        # After another unit in a product the hour is 時 joined to that unit: ワット時, ボルトアンペア時
+        # (計量単位令). Open JTalk reads a lone 時 after a space as トキ; joined it is read ジ. Not after a power (m² h).
+        - if: "$Word='時間' and preceding-sibling::*[1][.='·' or .='⋅' or .='×' or .='\u2062'] and preceding-sibling::*[2][(self::m:unit or contains(@data-intent-property, ':unit')) and not(*)]"
+          then: [x: "concat('\uF8FE', '時')"]
         # Open JTalk reads a lone 分, 日 or 年 as ブン, ヒ and トシ. Joined to the number they are
         # read as counters (1分 いっぷん, 3日 みっか); after anything else they are written in kana.
-        - if: "$Word='分' or $Word='日' or $Word='年'"
+        - else_if: "$Word='分' or $Word='日' or $Word='年'"
           then_test:
           - if: "preceding-sibling::*[1][.='\u2062'] and preceding-sibling::*[2][self::m:mn]"
             then: [x: "concat('\uF8FE', $Word)"]
