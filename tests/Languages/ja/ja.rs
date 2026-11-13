@@ -1702,12 +1702,26 @@ fn hour_after_another_unit() -> Result<()> {
         (r#"<math><mn>2</mn><mi intent=":unit">kW</mi><mo>·</mo><mi intent=":unit">h</mi></math>"#, "2, キロワット時"),
         (r#"<math><mn>3000</mn><mi intent=":unit">mA</mi><mo>&#x22C5;</mo><mi intent=":unit">h</mi></math>"#, "3000, ミリアンペア時"),
         (r#"<math><mrow intent=":literal"><mi intent=":unit">W</mi><mo>·</mo><mi intent=":unit">h</mi></mrow></math>"#, "おおもじ w ドット h"),
+        (r#"<math><mn>2</mn><mi intent=":unit">W</mi><mo>×</mo><mi intent=":unit">h</mi></math>"#, "PLACEHOLDER"),
+        (r#"<math><mn>2</mn><mi intent=":unit">W</mi><mo>&#x2219;</mo><mi intent=":unit">h</mi></math>"#, "PLACEHOLDER"),
         (r#"<math><mn>3</mn><mi intent=":unit">h</mi></math>"#, "3 時間"),
         (r#"<math><mn>60</mn><mi intent=":unit">km</mi><mo>/</mo><mi intent=":unit">h</mi></math>"#, "60, キロメートル, 毎時"),
         (r#"<math><mn>5</mn><mi intent=":unit">kg</mi><mo>/</mo><mo>(</mo><msup><mi intent=":unit">m</mi><mn>2</mn></msup><mo>·</mo><mi intent=":unit">h</mi><mo>)</mo></math>"#, "5; キログラム, 毎; メートル の 2 乗, 時間"),
     ] {
         test("ja", "SimpleSpeak", expr, expected)?;
         test("ja", "ClearSpeak", expr, expected)?;
+    }
+    return Ok(());
+}
+
+/// In terse speech a one-letter hour is spelled and hr stays 時間; the unit before it does not add 時.
+#[test]
+fn hour_after_another_unit_terse() -> Result<()> {
+    for (expr, expected) in [
+        (r#"<math><mn>2</mn><mi intent=":unit">kW</mi><mo>·</mo><mi intent=":unit">h</mi></math>"#, "PLACEHOLDER"),
+        (r#"<math><mn>2</mn><mi intent=":unit">kW</mi><mo>·</mo><mi intent=":unit">hr</mi></math>"#, "PLACEHOLDER"),
+    ] {
+        test_prefs("ja", "SimpleSpeak", vec![("Verbosity", "Terse")], expr, expected)?;
     }
     return Ok(());
 }
