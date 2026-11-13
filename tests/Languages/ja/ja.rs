@@ -1666,13 +1666,14 @@ fn double_struck_italic_letters() -> Result<()> {
     return Ok(());
 }
 
-/// Between two units a ·, ⋅ or × is not spoken (en does the same: newton metres), so N·m is
+/// Between two units a ·, ⋅, ∙ or × is not spoken (en does the same: newton metres), so N·m is
 /// ニュートン メートル. The dot is still said between other things and inside :literal.
 #[test]
 fn product_of_units() -> Result<()> {
     for (expr, expected) in [
         (r#"<math><mn>5</mn><mi intent=":unit">N</mi><mo>·</mo><mi intent=":unit">m</mi></math>"#, "5, ニュートン メートル"),
         (r#"<math><mrow intent=":unit"><mi>N</mi><mo>⋅</mo><mi>m</mi></mrow></math>"#, "ニュートン メートル"),
+        (r#"<math><mn>5</mn><mi intent=":unit">N</mi><mo>&#x2219;</mo><mi intent=":unit">m</mi></math>"#, "PLACEHOLDER"),
         (r#"<math><mn>3</mn><mi intent=":unit">m</mi><mo>×</mo><mi intent=":unit">m</mi></math>"#, "3 メートル メートル"),
         (r#"<math><mo>(</mo><mi intent=":unit">N</mi><mo>·</mo><mi intent=":unit">m</mi><mo>)</mo><mo>/</mo><mi intent=":unit">s</mi></math>"#, "ニュートン メートル; 毎 秒"),
         (r#"<math><mrow intent=":literal"><mi intent=":unit">N</mi><mo>·</mo><mi intent=":unit">m</mi></mrow></math>"#, "おおもじ n ドット m"),
@@ -1688,17 +1689,19 @@ fn product_of_units() -> Result<()> {
     return Ok(());
 }
 
-/// After another unit in a product the hour is 時 joined to that unit (ワット時, as in 計量単位令),
-/// not 時間. A lone 時 after a space is read トキ by Open JTalk, so it is joined. The hour alone,
-/// after a power, or after "/" (毎時) is unchanged.
+/// After another unit in a product the hour is 時 said together with that unit (ワット時, as in
+/// 計量単位令), not 時間. Open JTalk reads a lone 時 after a space or a pause as トキ, so the unit
+/// before it says 時 and the hour itself says nothing. The hour alone, after a power, after "/"
+/// (毎時) and inside :literal is unchanged.
 #[test]
 fn hour_after_another_unit() -> Result<()> {
     for (expr, expected) in [
         (r#"<math><mn>2</mn><mi intent=":unit">W</mi><mo>·</mo><mi intent=":unit">h</mi></math>"#, "2 ワット時"),
         (r#"<math><mrow intent=":unit"><mi>W</mi><mi>h</mi></mrow></math>"#, "ワット時"),
         (r#"<math><mn>5</mn><mi intent=":unit">V</mi><mo>·</mo><mi intent=":unit">A</mi><mo>·</mo><mi intent=":unit">h</mi></math>"#, "5, ボルト アンペア時"),
-        // the pause after a prefixed unit comes from the automatic pause; Open JTalk reads キロワット、ジ
-        (r#"<math><mn>2</mn><mi intent=":unit">kW</mi><mo>·</mo><mi intent=":unit">h</mi></math>"#, "2, キロワット,時"),
+        (r#"<math><mn>2</mn><mi intent=":unit">kW</mi><mo>·</mo><mi intent=":unit">h</mi></math>"#, "PLACEHOLDER"),
+        (r#"<math><mn>3000</mn><mi intent=":unit">mA</mi><mo>&#x22C5;</mo><mi intent=":unit">h</mi></math>"#, "PLACEHOLDER"),
+        (r#"<math><mrow intent=":literal"><mi intent=":unit">W</mi><mo>·</mo><mi intent=":unit">h</mi></mrow></math>"#, "PLACEHOLDER"),
         (r#"<math><mn>3</mn><mi intent=":unit">h</mi></math>"#, "3 時間"),
         (r#"<math><mn>60</mn><mi intent=":unit">km</mi><mo>/</mo><mi intent=":unit">h</mi></math>"#, "60, キロメートル, 毎時"),
         (r#"<math><mn>5</mn><mi intent=":unit">kg</mi><mo>/</mo><mo>(</mo><msup><mi intent=":unit">m</mi><mn>2</mn></msup><mo>·</mo><mi intent=":unit">h</mi><mo>)</mo></math>"#, "5; キログラム, 毎; メートル の 2 乗, 時間"),
