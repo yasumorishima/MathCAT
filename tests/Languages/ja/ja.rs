@@ -955,6 +955,25 @@ fn bracket_and_arrow_names_read_correctly() -> Result<()> {
     return Ok(());
 }
 
+/// Shape names that Open JTalk misread: 中くらい was ナカクライ, 四分円 was ヨンプンエン
+/// (and 右上 turns into ミギジョー when kana follows it, so the whole name is kana)
+/// and 角丸 was スミマル.
+#[test]
+fn shape_names_read_correctly() -> Result<()> {
+    for (ch, expected) in [
+        ("&#x25FB;", "PLACEHOLDER"),
+        ("&#x25F7;", "PLACEHOLDER"),
+        ("&#x25A2;", "PLACEHOLDER"),
+        ("&#x2774;", "PLACEHOLDER"),
+        ("&#x25B3;", "PLACEHOLDER"),
+        ("&#x25CA;", "PLACEHOLDER"),
+    ] {
+        let expr = format!("<math><mo>{ch}</mo></math>");
+        if let Err(e) = test("ja", "ClearSpeak", &expr, expected) { eprintln!("PROBE {ch}: {e:#}"); }
+    }
+    return Ok(());
+}
+
 /// main reads a∶b as the function intent ratio(a, b); ja gives it a name and glue word.
 #[test]
 fn ratio_as_function() -> Result<()> {
