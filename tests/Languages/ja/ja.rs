@@ -1159,8 +1159,8 @@ fn geometry_translation() -> Result<()> {
     return Ok(());
 }
 
-/// The corner brackets were 左上角 and so on, and Open JTalk read 角 there as カク or スミ by turns;
-/// 隅 is read スミ every time and is the word this file already uses for a corner.
+/// The corner brackets were 左上角 and so on, and Open JTalk read 角 there inconsistently (カク, スミ, スミ, カク);
+/// 隅 is read スミ every time and is already used for a corner position, as in ⦍ 上隅短線付き角かっこ.
 #[test]
 fn corner_and_floor_brackets() -> Result<()> {
     for (expr, expected) in [
