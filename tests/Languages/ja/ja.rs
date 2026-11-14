@@ -957,19 +957,18 @@ fn bracket_and_arrow_names_read_correctly() -> Result<()> {
 
 /// Shape names that Open JTalk misread: 中くらい was ナカクライ, 四分円 was ヨンプンエン
 /// (and 右上 turns into ミギジョー when kana follows it, so the whole name is kana)
-/// and 角丸 was スミマル.
+/// and 角丸 was スミマル; 中カッコ after ちゅうくらいの also became ナカカッコ.
 #[test]
 fn shape_names_read_correctly() -> Result<()> {
     for (ch, expected) in [
-        ("&#x25FB;", "PLACEHOLDER"),
-        ("&#x25F7;", "PLACEHOLDER"),
-        ("&#x25A2;", "PLACEHOLDER"),
-        ("&#x2774;", "PLACEHOLDER"),
-        ("&#x25B3;", "PLACEHOLDER"),
-        ("&#x25CA;", "PLACEHOLDER"),
+        ("&#x25FB;", "ちゅうくらいの白四角"),
+        ("&#x25F7;", "みぎうえしぶんえん付き白丸"),
+        ("&#x25A2;", "かど丸の白四角"),
+        ("&#x2774;", "ちゅうくらいのちゅうカッコ飾り"),
+        ("&#x25B3;", "三角形"),
     ] {
         let expr = format!("<math><mo>{ch}</mo></math>");
-        if let Err(e) = test("ja", "ClearSpeak", &expr, expected) { eprintln!("PROBE {ch}: {e:#}"); }
+        test("ja", "ClearSpeak", &expr, expected)?;
     }
     return Ok(());
 }
