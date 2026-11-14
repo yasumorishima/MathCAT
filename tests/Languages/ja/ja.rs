@@ -956,8 +956,9 @@ fn bracket_and_arrow_names_read_correctly() -> Result<()> {
 }
 
 /// Shape names that Open JTalk misread: 中くらい was ナカクライ, 四分円 was ヨンプンエン
-/// (and 右上 turns into ミギジョー when kana follows it, so the whole name is kana)
-/// and 角丸 was スミマル; 中カッコ after ちゅうくらいの also became ナカカッコ.
+/// (with only 四分円 in kana, 右上 became ミギジョー, 左上 ヒダリジョー and 左下 ヒダリクダ,
+/// so the whole name is kana) and 角丸 was スミマル (also in the menclose roundedbox);
+/// 中カッコ after ちゅうくらいの also became ナカカッコ.
 #[test]
 fn shape_names_read_correctly() -> Result<()> {
     for (ch, expected) in [
@@ -1453,7 +1454,7 @@ fn menclose_strikes() -> Result<()> {
 fn menclose_shapes_and_long_division() -> Result<()> {
     for (notation, expected) in [
         ("circle", "円, 囲み x 囲み終了"),
-        ("roundedbox", "角丸の四角, 囲み x 囲み終了"),
+        ("roundedbox", "かど丸の四角, 囲み x 囲み終了"),
         ("longdiv", "割り算の筆算の記号, 囲み x 囲み終了"),
     ] {
         let expr = format!("<math><menclose notation='{notation}'><mi>x</mi></menclose></math>");
