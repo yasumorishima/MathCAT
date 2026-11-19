@@ -2297,3 +2297,15 @@ fn clearspeak_pref_matrix_silent_col_num() -> Result<()> {
         "2 かける 2 行列; ぎょう 1; b 下付き 1 1; b 下付き 1 2; ぎょう 2; b 下付き 2 1; b 下付き 2 2")?;
     return Ok(());
 }
+
+/// re in FunctionNames was missing its opening quote, so Re z without parentheses was read
+/// as the letters Re z, while Im z was read as 虚部 オブ z.
+#[test]
+fn real_part_without_parentheses() -> Result<()> {
+    let expr = "<math><mi>Re</mi><mi>z</mi></math>";
+    test("ja", "SimpleSpeak", expr, "実部 オブ z")?;
+    test("ja", "ClearSpeak", expr, "実部 オブ z")?;
+    let expr = "<math><mi>Im</mi><mi>z</mi></math>";
+    test("ja", "SimpleSpeak", expr, "虚部 オブ z")?;
+    return Ok(());
+}
