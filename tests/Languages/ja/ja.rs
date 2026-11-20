@@ -2315,3 +2315,14 @@ fn clearspeak_pref_matrix_silent_col_num() -> Result<()> {
         "2 かける 2 行列; ぎょう 1; b 下付き 1 1; b 下付き 1 2; ぎょう 2; b 下付き 2 1; b 下付き 2 2")?;
     return Ok(());
 }
+
+/// The superscript letters ⁱ and ⁿ were written アイ乗 and エヌ乗, and Open JTalk reads
+/// エヌ乗 as エヌノ. With a space before 乗 both are read as a power (エヌ ジョー).
+#[test]
+fn superscript_letter_powers() -> Result<()> {
+    let expr = "<math><mi>x</mi><mi>ⁿ</mi></math>";
+    test("ja", "SimpleSpeak", expr, "x エヌ 乗")?;
+    let expr = "<math><mi>x</mi><mi>ⁱ</mi></math>";
+    test("ja", "SimpleSpeak", expr, "x アイ 乗")?;
+    return Ok(());
+}
