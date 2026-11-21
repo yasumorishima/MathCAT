@@ -596,9 +596,9 @@ fn cjk_compatibility_squares() -> Result<()> {
     return Ok(());
 }
 
-/// The telegraph symbols for months, hours and days had no entry. The hours are written with 点 (hour in
-/// Chinese), which read as a Japanese word is れいてん ("zero points"), so they are spoken with 時;
-/// 1日 alone is read イチニチ ("one day"), so the first day is ついたち.
+/// The telegraph symbols for months, hours and days had no entry. The hours decompose to 点, which is
+/// "o'clock" in Chinese but てん ("point") in Japanese, so 0点 would be れいてん; they are spoken with 時.
+/// Open JTalk reads 1日 alone as イチニチ ("one day"), so the first day is ついたち.
 #[test]
 fn telegraph_symbols() -> Result<()> {
     let expr = "<math><mi>&#x32c3;</mi></math>";
