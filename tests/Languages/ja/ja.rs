@@ -615,14 +615,14 @@ fn mathtype_relation_symbols() -> Result<()> {
     return Ok(());
 }
 
-/// The dingbats and arrows in U+2700-27FF use the words of their neighbours: ★ is 黒星, a brace is 中カッコ,
+/// The dingbats and arrows in U+2700-27FF use the words of their neighbours: ★ is 黒星, ⟨ is 山カッコ,
 /// ⇚ writes 3重 with a digit, and ⓫ is 黒丸 11. 6つ角 was read ムッツカク, so ✶ says 先が6つ.
 #[test]
 fn dingbats_and_supplemental_arrows() -> Result<()> {
     let expr = "<math><mi>&#x2736;</mi></math>";
     test("ja", "SimpleSpeak", expr, "先が6つの黒星")?;
-    let expr = "<math><mi>&#x2774;</mi></math>";
-    test("ja", "SimpleSpeak", expr, "ちゅうくらいの中カッコ飾り")?;
+    let expr = "<math><mi>&#x27ea;</mi></math>";
+    test("ja", "SimpleSpeak", expr, "二重の山カッコ")?;
     let expr = "<math><mi>&#x27f0;</mi></math>";
     test("ja", "SimpleSpeak", expr, "上向き4重矢印")?;
     let expr = "<math><mi>&#x2776;</mi></math>";
