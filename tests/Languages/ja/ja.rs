@@ -663,8 +663,8 @@ fn general_punctuation_and_currency() -> Result<()> {
     test("ja", "SimpleSpeak", expr, "重ね二重縦線装飾")?;
     let expr = "<math><mi>&#x2031;</mi></math>";
     test("ja", "SimpleSpeak", expr, "パーミリアド")?;
-    let expr = "<math><mi>&#x20b9;</mi></math>";
-    test("ja", "SimpleSpeak", expr, "インドルピー")?;
+    let expr = "<math><mi>&#x20b4;</mi></math>";
+    test("ja", "SimpleSpeak", expr, "フリヴニャ")?;
     return Ok(());
 }
 
