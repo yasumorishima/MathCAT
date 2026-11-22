@@ -930,6 +930,22 @@ fn operator_words_in_unicode_full() -> Result<()> {
     return Ok(());
 }
 
+/// ∻ (homothetic) was 位似, which Open JTalk reads くらいに, so it is 相似の位置 like ∽ 相似,
+/// and ∛ says 立方根 オブ like √ 平方根 オブ.
+#[test]
+fn more_operator_words_in_unicode_full() -> Result<()> {
+    for (ch, expected) in [
+        ("&#x223B;", "x 相似の位置 y"),
+        ("&#x22F2;", "x 長い横線付き要素オブ y"),
+    ] {
+        let expr = format!("<math><mi>x</mi><mo>{ch}</mo><mi>y</mi></math>");
+        test("ja", "SimpleSpeak", &expr, expected)?;
+    }
+    let expr = "<math><mo>&#x221B;</mo><mi>x</mi></math>";
+    test("ja", "SimpleSpeak", expr, "立方根 オブ x")?;
+    return Ok(());
+}
+
 /// Open JTalk reads 波形 at the start of a word as なみかた and 対の as たいの
 /// ("versus"), so the wave arrows are 波形の … and the paired arrows are 一対の ….
 #[test]
