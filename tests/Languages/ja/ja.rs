@@ -598,6 +598,23 @@ fn enclosed_characters() -> Result<()> {
     return Ok(());
 }
 
+/// The MathType arrows in U+EB00-EBFF use the words of the standard arrows they look like:
+/// 棒へ向かう and 棒から出る like ⤒ and ⥠, and eb13-eb15 say 折れる like ↴, because 角 was read カク.
+#[test]
+fn mathtype_arrows() -> Result<()> {
+    let expr = "<math><mi>&#xeb13;</mi></math>";
+    test("ja", "SimpleSpeak", expr, "左へ進んで下へ折れる矢印")?;
+    let expr = "<math><mi>&#xeb24;</mi></math>";
+    test("ja", "SimpleSpeak", expr, "棒から出るうえかえし左向きハープーン")?;
+    let expr = "<math><mi>&#xeb28;</mi></math>";
+    test("ja", "SimpleSpeak", expr, "棒へ向かう左かえし上向きハープーン")?;
+    let expr = "<math><mi>&#xeb2c;</mi></math>";
+    test("ja", "SimpleSpeak", expr, "棒から出る左かえし上向きハープーン")?;
+    let expr = "<math><mi>&#xeb30;</mi></math>";
+    test("ja", "SimpleSpeak", expr, "棒へ向かう上向き矢印")?;
+    return Ok(());
+}
+
 /// The MathType characters in U+E900-E9FF use the words of the standard symbols they look like:
 /// ⨫ for e919, the space of ⊓ ⊔ for e920, ⧴ for e94d. 差 異体 was read サ イタイ, so e96d is 差の変形.
 #[test]
