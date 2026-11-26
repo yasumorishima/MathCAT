@@ -778,6 +778,16 @@ fn logical_not() -> Result<()> {
     return Ok(());
 }
 
+/// In Japanese school mathematics p ⇒ q is read p ならば q, the same word as
+/// ⟹ and the implies intent.
+#[test]
+fn double_arrow_reads_naraba() -> Result<()> {
+    let expr = "<math><mi>p</mi><mo>⇒</mo><mi>q</mi></math>";
+    test("ja", "ClearSpeak", expr, "p ならば q")?;
+    test("ja", "SimpleSpeak", expr, "p ならば q")?;
+    return Ok(());
+}
+
 /// Geometry has settled Japanese terms: 線分, 半直線, 弧, 点. The katakana
 /// transliterations of the English words are not used for these.
 #[test]

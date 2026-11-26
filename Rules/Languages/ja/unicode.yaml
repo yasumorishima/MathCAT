@@ -552,5 +552,5 @@
      - T: "上位集合オブ オア イコール"
 
  # --- restored short definitions that differ from unicode-full ---
- - "⇒": [T: "右向き二重矢印"]             # 0x21d2
+ - "⇒": [T: "ならば"]             # 0x21d2
  - "∐": [T: "余積"]                          # 0x2210
