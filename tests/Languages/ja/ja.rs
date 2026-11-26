@@ -2361,6 +2361,33 @@ fn product_of_units() -> Result<()> {
     return Ok(());
 }
 
+/// cm² is 平方センチメートル in Japanese, as in the 計量法 unit names (平方メートル, 立方メートル,
+/// キログラム毎平方メートル); it was read センチメートル の 2 乗. A metre unit after a per is read the
+/// same way (kg/m²). Other powers, non-length units (s², m/s²), a plain letter and :literal are unchanged.
+#[test]
+fn metre_units_squared_and_cubed_say_heihou_and_rippou() -> Result<()> {
+    for (expr, expected) in [
+        (r#"<math><mn>12</mn><msup><mi>cm</mi><mn>2</mn></msup></math>"#, "12, 平方センチメートル"),
+        (r#"<math><mn>12</mn><msup><mi intent=":unit">cm</mi><mn>2</mn></msup></math>"#, "12, 平方センチメートル"),
+        (r#"<math><mn>3</mn><msup><mi mathvariant="normal">m</mi><mn>3</mn></msup></math>"#, "3 立方メートル"),
+        (r#"<math><mn>3</mn><msup><mi intent=":unit">m</mi><mn>3</mn></msup></math>"#, "3 立方メートル"),
+        (r#"<math><mn>5</mn><msup><mi>km</mi><mn>2</mn></msup></math>"#, "5, 平方キロメートル"),
+        (r#"<math><mn>5</mn><msup><mi intent=":unit">km</mi><mn>2</mn></msup></math>"#, "5, 平方キロメートル"),
+        // a plain m is not inferred as a unit
+        (r#"<math><mn>3</mn><msup><mi>m</mi><mn>3</mn></msup></math>"#, "3 m の 3 乗"),
+        (r#"<math><msup><mi>x</mi><mn>2</mn></msup></math>"#, "x の 2 乗"),
+        (r#"<math><mn>2</mn><msup><mi intent=":unit">s</mi><mn>2</mn></msup></math>"#, "2 秒 の 2 乗"),
+        (r#"<math><mn>3</mn><mi intent=":unit">m</mi><mo>/</mo><msup><mi intent=":unit">s</mi><mn>2</mn></msup></math>"#, "3, メートル 毎 秒 の 2 乗"),
+        (r#"<math><mn>5</mn><mi intent=":unit">kg</mi><mo>/</mo><msup><mi intent=":unit">m</mi><mn>2</mn></msup></math>"#, "5, キログラム, 毎 平方メートル"),
+        (r#"<math><mn>12</mn><msup><mi intent=":literal">cm</mi><mn>2</mn></msup></math>"#, "12 cm の 2 乗"),
+        (r#"<math><mrow intent=":literal"><mn>12</mn><msup><mi intent=":unit">cm</mi><mn>2</mn></msup></mrow></math>"#, "12 cm 上付き 2 上付き終了"),
+    ] {
+        test("ja", "SimpleSpeak", expr, expected)?;
+        test("ja", "ClearSpeak", expr, expected)?;
+    }
+    return Ok(());
+}
+
 /// After another unit in a product the hour is 時 said together with that unit (ワット時, as in
 /// 計量単位令), not 時間. Open JTalk reads a lone 時 after a space or a pause as トキ, so the unit
 /// before it says 時 and the hour itself says nothing. The hour alone, after a power, after "/"
@@ -2378,7 +2405,7 @@ fn hour_after_another_unit() -> Result<()> {
         (r#"<math><mn>2</mn><mi intent=":unit">W</mi><mo>&#x2219;</mo><mi intent=":unit">h</mi></math>"#, "2 ワット時"),
         (r#"<math><mn>3</mn><mi intent=":unit">h</mi></math>"#, "3 時間"),
         (r#"<math><mn>60</mn><mi intent=":unit">km</mi><mo>/</mo><mi intent=":unit">h</mi></math>"#, "60, キロメートル, 毎時"),
-        (r#"<math><mn>5</mn><mi intent=":unit">kg</mi><mo>/</mo><mo>(</mo><msup><mi intent=":unit">m</mi><mn>2</mn></msup><mo>·</mo><mi intent=":unit">h</mi><mo>)</mo></math>"#, "5; キログラム, 毎; メートル の 2 乗, 時間"),
+        (r#"<math><mn>5</mn><mi intent=":unit">kg</mi><mo>/</mo><mo>(</mo><msup><mi intent=":unit">m</mi><mn>2</mn></msup><mo>·</mo><mi intent=":unit">h</mi><mo>)</mo></math>"#, "5; キログラム, 毎; 平方メートル, 時間"),
     ] {
         test("ja", "SimpleSpeak", expr, expected)?;
         test("ja", "ClearSpeak", expr, expected)?;

@@ -191,6 +191,29 @@
   - pause: short
 
 # non-function rules for power
+- name: metre-unit-squared-or-cubed   # audit-ignore: a metre unit squared or cubed is one word in Japanese, 平方メートル and 立方メートル (計量法), not メートル の 2 乗
+  tag: power
+  match:
+  - "*[2][self::m:mn][.='2' or .='3'] and"
+  # a metre unit, with or without an SI prefix (the same lookup as the unit rule in SharedRules/general.yaml)
+  - "*[1][(self::m:unit or contains(@data-intent-property, ':unit:')) and not(*) and"
+  - "     not($Verbosity = 'Terse' and string-length(.) = 1) and"
+  - "     DefinitionValue(., 'Speech', 'UnitsWithoutPrefixes') = '' and DefinitionValue(., 'Speech', 'EnglishUnits') = '' and"
+  - "     DefinitionValue(., 'Speech', 'CurrencySymbols') = '' and"
+  - "     (.='m' or"
+  - "      DefinitionValue(., 'Speech', 'SIUnits') = '' and"
+  - "      (substring(., 1, 2) = 'da' and substring(., 3) = 'm' or"
+  - "       string-length(.) = 2 and substring(., 2) = 'm' and DefinitionValue(substring(., 1, 1), 'Speech', 'SIPrefixes') != ''))] and"
+  # not inside :literal: that keeps の 2 乗
+  - "not(ancestor-or-self::*[contains(@data-intent-property, ':literal:')] or *[1][contains(@data-intent-property, ':literal:')])"
+  replace:
+  - bookmark: "*[2]/@id"
+  - test:
+      if: "*[2][.='2']"
+      then: [tc: "平方"]      # phrase(5 'square' metres)
+      else: [tc: "立方"]      # phrase(5 'cubic' metres)
+  - x: "*[1]"
+
 - name: squared-or-cubed
   tag: power
   match: "*[2][self::m:mn][.='2' or .='3']"
